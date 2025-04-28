@@ -1,0 +1,195 @@
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <chrono>
+
+using namespace std;
+
+// Global variables and mutex
+bool food = false;
+bool decor = false;
+bool ready = false;
+mutex coutMutex;
+
+// Function declarations
+void makeSandwich();
+void prepareCoffeeAndToast();
+void dishWashing();
+void foldingLaundry();
+void parallelHouseChores();
+void checkProgress();
+void prepFood();
+void decorate();
+void organizeParty();
+void p1Packing();
+void p2Packing();
+void parallelBoxPacking();
+void sequentialBoxPacking();
+
+// Function definitions
+
+void makeSandwich() {
+    cout << "Making a sandwich - Sequential Computing\n\n";
+    cout << "Getting bread...\n";
+    cout << "Getting cheese...\n";
+    cout << "Getting ham...\n";
+    cout << "Assembling sandwich...\n\n";
+    cout << "Voila! Sandwich done!\n";
+}
+
+void prepareCoffeeAndToast() {
+    cout << "Concurrent Computing \n";
+    int coffee = 1, toast = 2;
+    int count1 = 5;
+    int count2 = 5;
+    while (coffee <= 9 || toast <= 10) {
+        if (coffee <= 9) {
+            cout << "Coffee will be done in " << count1 << "\n";
+            coffee += 2;
+            count1 -= 1;
+            this_thread::sleep_for(chrono::milliseconds(200));
+        }
+        if (toast <= 10) {
+            cout << "Toast will be done in " << count2 << "\n";
+            toast += 2;
+            count2 -= 1;
+            this_thread::sleep_for(chrono::milliseconds(200));
+        }
+    }
+}
+
+void dishWashing() {
+    for (int i = 5; i >= 0; i--) {
+        lock_guard<mutex> guard(coutMutex);
+        cout << "\nDish Washing will be done in " << i;
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+}
+
+void foldingLaundry() {
+    for (int j = 5; j >= 0; j--) {
+        lock_guard<mutex> guard(coutMutex);
+        cout << "\nFolding laundry will be done in " << j;
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+}
+
+void parallelHouseChores() {
+    cout << "\n=== Parallel Computing: House Chores ===\n";
+    thread t1(dishWashing);
+    thread t2(foldingLaundry);
+
+    t1.join();
+    t2.join();
+}
+
+void checkProgress() {
+    while (!ready) {
+        cout << "Checking if food and decor is finished...\n";
+        if (food && decor)
+            ready = true;
+        this_thread::sleep_for(chrono::milliseconds(600));
+    }
+    cout << "Party is ready!\n";
+}
+
+void prepFood() {
+    for (int i = 1; i < 5; i++) {
+        cout << "Friend 1: Preparing food...\n";
+        this_thread::sleep_for(chrono::milliseconds(400));
+    }
+    food = true;
+}
+
+void decorate() {
+    for (int i = 1; i < 5; i++) {
+        cout << "Friend 2: Decorating...\n";
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+    decor = true;
+}
+
+void organizeParty() {
+    cout << "\n=== Concurrent and Parallel: Organizing a Party ===\n";
+
+    // You
+    thread t1(checkProgress);
+    // Friends
+    thread t2(prepFood);
+    thread t3(decorate);
+
+    // Wait for friends' threads
+    t2.join();
+    t3.join();
+
+    // Wait for your checking thread
+    t1.join();
+}
+
+void p1Packing() {
+    for (int j = 1; j <= 10; j++) {
+        cout << "Person 1 packing box: " << j << "\n";
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+}
+
+void p2Packing() {
+    for (int i = 1; i <= 10; i++) {
+        cout << "Person 2 packing box: " << i << "\n";
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+}
+
+void parallelBoxPacking() {
+    cout << "\n=== Parallel Computing: Packing Boxes with a Friend ===\n";
+    thread t1(p1Packing);
+    thread t2(p2Packing);
+
+    t1.join();
+    t2.join();
+}
+
+void sequentialBoxPacking() {
+    cout << "\n=== Sequential Computing: Packing Boxes Alone ===\n";
+    for (int i = 1; i <= 10; i++) {
+        cout << "Solo person packing box: " << i << "\n";
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+}
+
+// Main Program
+int main() {
+    int choice;
+    do {
+        cout << "\nSelect an activity:\n";
+        cout << "1. Make a Sandwich (Sequential)\n";
+        cout << "2. Prepare Coffee and Toast (Concurrent)\n";
+        cout << "3. Perform House Chores (Parallel)\n";
+        cout << "4. Organize a Party (Concurrent and Parallel)\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                makeSandwich();
+                break;
+            case 2:
+                prepareCoffeeAndToast();
+                break;
+            case 3:
+                parallelHouseChores();
+                break;
+            case 4:
+                organizeParty();
+                break;
+            case 5:
+                cout << "Exiting the program. Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
