@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//global variables of the status of tasks
+//global variables 
 bool food = false;
 bool decor = false;
 bool ready = false;
@@ -12,7 +12,7 @@ bool ready = false;
 
 void checkProgress(){
     while(!ready){
-        cout<<"You: Checking if finished..."<<endl;
+        cout<<"Checking if food and decor is finished..."<<endl;
         if(food && decor) //check if food and decor are both finished
             ready = true;
         this_thread::sleep_for(chrono::milliseconds(600)); //sleep for 600 millisecond and check again
@@ -22,7 +22,7 @@ void checkProgress(){
 
 void prepFood() {
     for (int i = 1; i < 5; i++){
-        cout<<"Friend 1: Preping food..."<<endl;
+        cout<<"Friend 1: Preparing food..."<<endl;
         this_thread::sleep_for(chrono::milliseconds(400)); //task takes 400 millisecond
     }
     food = true; //make food status to ready when compeleted.
