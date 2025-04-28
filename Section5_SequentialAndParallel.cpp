@@ -18,6 +18,7 @@ void p2Packing() {
     }
 }
 
+//function for parallel tasks being done by two persons, also calling 2 funstions
 void parallelComputing() {
     cout << "\n=== Packing box with a friend===\n";
     thread t1(p1Packing);
@@ -27,6 +28,7 @@ void parallelComputing() {
     t2.join(); // Wait for thread t2 to finish
 }
 
+//function for 1 person doing the boxes
 void sequentialComputing(){
     cout<< "\n===Packing box alone===\n";
     for (int i=1; i<=10; i++){
