@@ -7,6 +7,7 @@ using namespace std;
 
 mutex coutMutex; // Create a mutex for console output
 
+//function for washing dishes
 void dishWashing() {
     for (int i = 5; i >= 0; i--) {
         {
@@ -17,6 +18,7 @@ void dishWashing() {
     }
 }
 
+//function for folsing laundry
 void foldingLaundry() {
     for (int j = 5; j >= 0; j--) {
         {
@@ -27,6 +29,7 @@ void foldingLaundry() {
     }
 }
 
+//run both threads for simultaneous completion
 void parallelComputing() {
     cout << "\n=== Parallel Computing ===\n";
     thread t1(dishWashing);
