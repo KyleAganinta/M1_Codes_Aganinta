@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+//sequential order of making a sandwich
 void makeSandwich(){
     cout<< "Making a sandwich - Sequential Computing\n\n";
     cout<< "Getting bread...\n";
